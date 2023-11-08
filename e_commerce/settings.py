@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pictures',
     'rest_framework',
+    'django_filters',
 
     # my_apps
     'order',
