@@ -1,3 +1,5 @@
 django==4.2.7
 djangorestframework==3.14.0
 django-cors-headers==4.3.0
+django-stdimage==6.0.2
+django-pictures==1.1.3
