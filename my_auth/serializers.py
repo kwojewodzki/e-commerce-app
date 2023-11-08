@@ -12,7 +12,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'is_seller', 'is_client')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'is_seller', 'is_customer')
 
     def create(self, validated_data):
         user = CustomUser.objects.create(
@@ -21,7 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             is_seller=validated_data['is_seller'],
-            is_client=validated_data['is_client'],
+            is_customer=validated_data['is_customer'],
         )
 
         user.set_password(validated_data['password'])

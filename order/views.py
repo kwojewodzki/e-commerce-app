@@ -5,6 +5,7 @@ from rest_framework import generics, filters, mixins
 from rest_framework.permissions import AllowAny
 from .models import Product
 from .paginations import ProductListPagination
+from .permissions import IsCustomer, IsSeller
 
 
 # Create your views here.
@@ -29,4 +30,5 @@ class DetailProductAPIView(generics.RetrieveAPIView):
 class CreateProductAPIView(generics.CreateAPIView):
     serializer_class = ProductCreateSerializer
     queryset = Product.objects.all()
+    permission_classes = (IsSeller,)
     lookup_field = 'pk'
