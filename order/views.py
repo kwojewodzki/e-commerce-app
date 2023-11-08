@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import ProductListSerializer
-from rest_framework import generics, filters
+from .serializers import ProductSerializer, ProductCreateSerializer
+from rest_framework import generics, filters, mixins
 from rest_framework.permissions import AllowAny
 from .models import Product
 from .paginations import ProductListPagination
@@ -10,7 +10,7 @@ from .paginations import ProductListPagination
 # Create your views here.
 
 class ListProductsAPIView(generics.ListAPIView):
-    serializer_class = ProductListSerializer
+    serializer_class = ProductSerializer
     permission_classes = (AllowAny,)
     queryset = Product.objects.all()
     pagination_class = ProductListPagination
@@ -20,7 +20,13 @@ class ListProductsAPIView(generics.ListAPIView):
 
 
 class DetailProductAPIView(generics.RetrieveAPIView):
-    serializer_class = ProductListSerializer
+    serializer_class = ProductSerializer
     permission_classes = (AllowAny,)
+    queryset = Product.objects.all()
+    lookup_field = 'pk'
+
+
+class CreateProductAPIView(generics.CreateAPIView):
+    serializer_class = ProductCreateSerializer
     queryset = Product.objects.all()
     lookup_field = 'pk'

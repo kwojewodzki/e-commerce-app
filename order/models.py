@@ -51,7 +51,7 @@ class Order(models.Model):
     client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     product_list = models.ManyToManyField(OrderProduct)
-    order_date = models.DateTimeField()
+    order_date = models.DateTimeField(auto_now_add=True)
     payment_date = models.DateTimeField()
     total_price = models.FloatField()
 
