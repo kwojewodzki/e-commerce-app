@@ -1,11 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 
-from product.serializers import ProductSerializer, ProductCreateSerializer
+from .serializers import ProductSerializer, ProductCreateSerializer
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from .models import Product
 from product.paginations import ProductListPagination
-from product.permissions import IsSeller
+from .permissions import IsSeller
 
 
 # Create your views here.

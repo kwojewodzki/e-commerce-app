@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('my_auth.urls')),
-    path('', include('order.urls'))
+    path('', include('product.urls'))
 ]
 
 if get_settings().USE_PLACEHOLDERS:
