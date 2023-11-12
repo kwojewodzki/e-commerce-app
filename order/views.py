@@ -1,11 +1,8 @@
-from django_filters.rest_framework import DjangoFilterBackend
+from django.core.mail import send_mail
 from rest_framework.response import Response
 
-from product.serializers import ProductSerializer, ProductCreateSerializer
-from rest_framework import generics, filters
-from rest_framework.permissions import AllowAny
+from rest_framework import generics, status
 from .models import Order
-from product.paginations import ProductListPagination
 from product.permissions import IsCustomer
 from .serializers import CreateOrderSerializer
 
@@ -13,9 +10,20 @@ from .serializers import CreateOrderSerializer
 # Create your views here.
 
 
-class CreateOrderAPIView(generics.CreateAPIView): #TODO add sending email
+class CreateOrderAPIView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = CreateOrderSerializer
     permission_classes = (IsCustomer,)
     lookup_field = 'pk'
 
+    def create(self, request, *args, **kwargs):
+        serializer = CreateOrderSerializer(data=request.data)
+        message = "Your order was successfully placed. Thank You"
+        if serializer.is_valid():
+            serializer.save()
+            send_mail("Confirmation",
+                      message,
+                      from_email="confirmation@ecommerce.com",
+                      recipient_list=[request.user.email])
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

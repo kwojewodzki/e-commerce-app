@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import ProductSerializer, ProductCreateSerializer
+from .serializers import ProductSerializer, ProductCreateSerializer, GetStatisticsSerializer
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from .models import Product
@@ -37,3 +37,9 @@ class UpdateDeleteProductAPIView(generics.DestroyAPIView, generics.UpdateAPIView
     serializer_class = ProductSerializer
     permission_classes = (IsSeller,)
     lookup_field = 'pk'
+
+
+class GetStatisticsAPIView(generics.ListAPIView):
+    serializer_class = GetStatisticsSerializer
+    queryset = Product.objects.all()
+    permission_classes = (IsSeller,)

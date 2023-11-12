@@ -23,3 +23,10 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             "price",
             "image"
         ]
+
+
+class GetStatisticsSerializer(serializers.Serializer):
+    start_date = serializers.DateField(write_only=True)
+    end_date = serializers.DateField(write_only=True)
+    count = serializers.IntegerField(write_only=True)
+    product_list = serializers.ListField(read_only=True)

@@ -27,6 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'my_auth.CustomUser'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Application definition
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'pictures',
     'rest_framework',
     'django_filters',
+    'drf_yasg',
 
     # my_apps
     'my_auth',

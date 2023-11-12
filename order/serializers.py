@@ -1,5 +1,4 @@
-from rest_framework import serializers, status
-from rest_framework.response import Response
+from rest_framework import serializers
 
 from my_auth.models import CustomUser
 from order.models import Order, OrderProduct
@@ -50,7 +49,7 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             except Product.DoesNotExist:
                 product = None
 
-            new_order_product = OrderProduct.objects.create(
+            OrderProduct.objects.create(
                 order=new_order,
                 product=product,
                 amount=amount,
