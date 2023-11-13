@@ -1,5 +1,7 @@
+from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 
+from order.models import Order, OrderProduct
 from .serializers import ProductSerializer, ProductCreateSerializer, GetStatisticsSerializer
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
@@ -35,11 +37,26 @@ class CreateProductAPIView(generics.CreateAPIView):
 
 class UpdateDeleteProductAPIView(generics.DestroyAPIView, generics.UpdateAPIView):
     serializer_class = ProductSerializer
+    queryset = Product.objects.all()
     permission_classes = (IsSeller,)
     lookup_field = 'pk'
 
 
 class GetStatisticsAPIView(generics.ListAPIView):
     serializer_class = GetStatisticsSerializer
-    queryset = Product.objects.all()
     permission_classes = (IsSeller,)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["start_date"] = self.kwargs['start_date']
+        context["end_date"] = self.kwargs['end_date']
+        return context
+
+    def get_queryset(self):
+        start_date, end_date, count = self.kwargs.values()
+        orders = Order.objects.filter(order_date__range=(start_date, end_date))
+        products_and_amount = OrderProduct.objects.filter(order__in=orders).values('product').annotate(
+            Sum('amount')).order_by('-amount__sum')
+        if count > len(products_and_amount):
+            return products_and_amount
+        return products_and_amount[:count]

@@ -39,14 +39,18 @@ class Product(models.Model):
             return self.thumbnail.url
 
     @staticmethod
-    def make_thumbnail(image):
+    def get_image_name(name: str):
+        name = name.split("/")[-1]
+        return 'thumbnails/' + name
+
+    def make_thumbnail(self, image):
         img = Image.open(image)
         img.convert('RGB')
         img.thumbnail((200, 200))
 
         thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=85)
+        img.save(thumb_io, 'PNG', quality=85)
 
-        thumbnail = File(thumb_io, name=image.name)
+        thumbnail = File(thumb_io, name=self.get_image_name(image.name))
 
         return thumbnail
