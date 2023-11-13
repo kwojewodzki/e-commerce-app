@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 
 from my_auth.models import CustomUser
 from order.models import Order, OrderProduct
@@ -36,7 +37,11 @@ class CreateOrderSerializer(serializers.ModelSerializer):
         return representation
 
     def create(self, validated_data):
-        user = CustomUser.objects.get(first_name=validated_data["name"], last_name=validated_data["surname"])
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
         new_order = Order.objects.create(
             client=user,
             address=validated_data["address"],

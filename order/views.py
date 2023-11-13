@@ -17,7 +17,7 @@ class CreateOrderAPIView(generics.CreateAPIView):
     lookup_field = 'pk'
 
     def create(self, request, *args, **kwargs):
-        serializer = CreateOrderSerializer(data=request.data)
+        serializer = CreateOrderSerializer(data=request.data, context={'request': request})
         message = "Your order was successfully placed. Thank You"
         if serializer.is_valid():
             serializer.save()
