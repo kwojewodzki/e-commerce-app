@@ -2,7 +2,8 @@ from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 
 from order.models import Order, OrderProduct
-from .serializers import ProductSerializer, ProductCreateSerializer, GetStatisticsSerializer
+from .serializers import ProductSerializer, GetStatisticsSerializer, \
+    ProductCreateModifySerializer
 from rest_framework import generics, filters
 from rest_framework.permissions import AllowAny
 from .models import Product
@@ -30,13 +31,13 @@ class DetailProductAPIView(generics.RetrieveAPIView):
 
 
 class CreateProductAPIView(generics.CreateAPIView):
-    serializer_class = ProductCreateSerializer
+    serializer_class = ProductCreateModifySerializer
     queryset = Product.objects.all()
     permission_classes = (IsSeller,)
 
 
 class UpdateDeleteProductAPIView(generics.DestroyAPIView, generics.UpdateAPIView):
-    serializer_class = ProductSerializer
+    serializer_class = ProductCreateModifySerializer
     queryset = Product.objects.all()
     permission_classes = (IsSeller,)
     lookup_field = 'pk'

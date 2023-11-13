@@ -24,9 +24,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(  # TODO change values
     openapi.Info(
-        title="Animal Daycare API",
+        title="E-Commerce API",
         default_version='v1',
-        description="Test description",
+        description="Api used for e-commerce app",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),

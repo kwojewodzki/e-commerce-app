@@ -1,19 +1,15 @@
 from rest_framework import serializers
 from order.models import Product
+from product.models import ProductCategory
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = [
-            "name",
-            "description",
-            "price",
-            "image"
-        ]
+        fields = '__all__'
 
 
-class ProductCreateSerializer(serializers.ModelSerializer):
+class ProductCreateModifySerializer(serializers.ModelSerializer):
     thumbnail = serializers.ImageField(read_only=True)
 
     class Meta:
